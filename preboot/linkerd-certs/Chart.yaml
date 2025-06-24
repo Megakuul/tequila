@@ -1,0 +1,4 @@
+apiVersion: v2
+name: linkerd-certs
+description: Helm chart to deploy the linkerd certificates externally.
+version: 0.1.0

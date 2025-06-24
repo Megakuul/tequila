@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: linkerd-identity-trust-roots
+  namespace: {{ .Release.Namespace }}
+data:
+  ca.crt: |
+{{ .Values.ca_crt | indent 4 }}
