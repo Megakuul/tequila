@@ -1,8 +1,8 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: argocd-route
-  namespace: argocd
+  name: rancher-route
+  namespace: cattle-system
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt"    
 spec:
@@ -11,7 +11,7 @@ spec:
       namespace: traefik
 
   hostnames:
-    - "argo.tequila.megakuul.ch"
+    - "rancher.tequila.megakuul.ch"
 
   rules:
     - matches:
@@ -19,5 +19,5 @@ spec:
             type: PathPrefix
             value: /
       backendRefs:
-        - name: argocd-server
-          port: 443
+        - name: rancher
+          port: 80

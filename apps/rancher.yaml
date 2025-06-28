@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rancher
+  namespace: argocd
+spec:
+  destination:
+    namespace: cattle-system
+    server: https://kubernetes.default.svc
+  project: default
+  sources:
+    - repoURL: https://releases.rancher.com/server-charts/stable
+      targetRevision: 2.11.3
+      chart: rancher
+      helm:
+        values: |
+          ingress:
+            enabled: false
+    - repoURL: https://github.com/megakuul/tequila
+      targetRevision: HEAD
+      path: apps/rancher/
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

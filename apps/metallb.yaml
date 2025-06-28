@@ -7,12 +7,15 @@ metadata:
     argocd.argoproj.io/sync-wave: "-10"
 spec:
   project: default
-  source:
-    repoURL: https://metallb.github.io/metallb 
-    chart: metallb                            
-    targetRevision: 0.15.2
-    helm:
-      includeCrds: true
+  sources:
+    - repoURL: https://metallb.github.io/metallb 
+      chart: metallb                            
+      targetRevision: 0.15.2
+      helm:
+        includeCrds: true
+    - repoURL: https://github.com/megakuul/tequila
+      targetRevision: HEAD
+      path: apps/metallb/
   destination:
     server: https://kubernetes.default.svc
     namespace: metallb

@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Secret 
+metadata:
+  name: letsencrypt-private-key
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt
+spec:
+  acme:
+    email: linus.moser@megakuul.ch
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-private-key
+    solvers:
+      - http01:
+          gatewayAPI:
+            gatewayName: traefik
+            gatewayNamespace: traefik

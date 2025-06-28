@@ -1,0 +1,53 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rook-ceph-cluster
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-20"
+spec:
+  destination:
+    namespace: rook-ceph
+    server: https://kubernetes.default.svc
+  project: default
+  sources:
+    - repoURL: https://charts.rook.io/release
+      targetRevision: 1.17.5
+      chart: rook-ceph-cluster
+      helm:
+        values: |
+          cephBlockPools:
+            - name: default-block-pool
+              spec:
+                replicated:
+                  size: 3
+              storageClass:
+                enabled: true
+                name: ceph-block
+                isDefault: true
+                reclaimPolicy: Delete
+                allowVolumeExpansion: true
+              parameters:
+                "csi.storage.k8s.io/provisioner-secret-name": "rook-csi-rbd-provisioner"
+                "csi.storage.k8s.io/provisioner-secret-namespace": "rook-ceph"
+                "csi.storage.k8s.io/controller-expand-secret-name": "rook-csi-rbd-provisioner"
+                "csi.storage.k8s.io/controller-expand-secret-namespace": "rook-ceph"
+                "csi.storage.k8s.io/node-stage-secret-name": "rook-csi-rbd-node"
+                "csi.storage.k8s.io/node-stage-secret-namespace": "rook-ceph"
+                "csi.storage.k8s.io/fsType": "ext4"
+        cephClusterSpec:
+          dashboard:
+            enabled: true
+            ssl: true
+          storage:
+            useAllNodes: true
+            useAllDevices: true
+    - repoURL: https://github.com/megakuul/tequila
+      targetRevision: HEAD
+      path: apps/rook-ceph/
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
