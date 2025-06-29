@@ -3,11 +3,13 @@ kind: Application
 metadata:
   name: argocd
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   destination:
     namespace: argocd
     server: https://kubernetes.default.svc
-  project: default
+  project: default-bundle
   sources:
     - repoURL: https://argoproj.github.io/argo-helm
       targetRevision: 8.1.1

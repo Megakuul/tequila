@@ -4,5 +4,5 @@ metadata:
   name: linkerd-identity-trust-roots
   namespace: {{ .Release.Namespace }}
 data:
-  ca.crt: |
+  ca-bundle.crt: |
 {{ .Values.ca_crt | indent 4 }}
