@@ -42,7 +42,8 @@ spec:
             ssl: true
           storage:
             useAllNodes: true
-            useAllDevices: true
+            useAllDevices: false
+            devicePathFilter: "/dev/ubuntu-vg/ceph-lv"
     - repoURL: https://github.com/megakuul/tequila
       targetRevision: HEAD
       path: apps/rook-ceph/
