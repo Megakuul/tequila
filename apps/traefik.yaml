@@ -19,12 +19,10 @@ spec:
           ports:
             web:
               port: 80
-              protocol: TCP
-              exposedPort: 80 
             websecure:
               port: 443
-              protocol: TCP
-              exposedPort: 443
+            dashboard:
+              port: 8000
           providers:
             kubernetesGateway:
               enabled: true
@@ -38,6 +36,9 @@ spec:
                 port: 443
                 protocol: HTTPS
                 namespacePolicy: All
+                certificateRefs:
+                  - name: traefik-tls-secret
+                    kind: Secret
   syncPolicy:
     automated:
       prune: true
