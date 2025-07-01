@@ -15,6 +15,7 @@ spec:
       name: letsencrypt-private-key
     solvers:
       - http01:
-          gatewayAPI:
-            gatewayName: traefik
-            gatewayNamespace: traefik
+          gatewayHTTPRoute:
+            parentRefs:
+              - name: traefik
+                namespace: traefik
