@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dashboard
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  destination:
+    namespace: dashboard
+    server: https://kubernetes.default.svc
+  project: default
+  sources:
+    - repoURL: https://kubernetes.github.io/dashboard
+      targetRevision: 7.13.0
+      chart: kubernetes-dashboard
+    - repoURL: https://github.com/megakuul/tequila
+      targetRevision: HEAD
+      path: apps/dashboard/
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

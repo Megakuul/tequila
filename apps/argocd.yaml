@@ -1,26 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: rancher
+  name: argocd
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   destination:
-    namespace: cattle-system
+    namespace: argocd
     server: https://kubernetes.default.svc
   project: default
   sources:
-    - repoURL: https://releases.rancher.com/server-charts/stable
-      targetRevision: 2.11.2
-      chart: rancher
-      helm:
-        values: |
-          ingress:
-            enabled: false
     - repoURL: https://github.com/megakuul/tequila
       targetRevision: HEAD
-      path: apps/rancher/
+      path: apps/argocd/
   syncPolicy:
     automated:
       prune: true
