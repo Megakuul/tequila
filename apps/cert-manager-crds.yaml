@@ -16,7 +16,9 @@ spec:
       targetRevision: 1.18.0
       chart: cert-manager
       helm:
-        includeCrds: true
+        parameters:
+          - name: installCRDs
+            value: 'true'
     - repoURL: https://github.com/megakuul/tequila
       targetRevision: HEAD
       path: apps/cert-manager/
