@@ -4,7 +4,7 @@ metadata:
   name: cert-manager
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "-20"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   destination:
@@ -16,9 +16,7 @@ spec:
       targetRevision: 1.18.0
       chart: cert-manager
       helm:
-        parameters:
-          - name: installCRDs
-            value: "true"
+        includeCrds: true
     - repoURL: https://github.com/megakuul/tequila
       targetRevision: HEAD
       path: apps/cert-manager/
