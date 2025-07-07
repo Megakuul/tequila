@@ -18,7 +18,6 @@ spec:
       helm:
         values: |
           installCRDs: true
-          crds.enabled: true
   syncPolicy:
     automated:
       prune: true
