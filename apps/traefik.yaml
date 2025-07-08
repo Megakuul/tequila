@@ -24,18 +24,19 @@ spec:
           gateway:
             listeners:
               web:
-                port: 8000
+                port: 80
                 protocol: HTTP
                 namespacePolicy: All
               websecure:
-                port: 8443
+                port: 443
                 protocol: HTTPS
                 namespacePolicy: All
                 mode: Terminate
                 certificateRefs:
-                  - name: traefik-tls-secret
-                    kind: Secret
-                    group: ""
+                  - name: traefik-cert
+    - repoURL: https://github.com/megakuul/tequila
+      targetRevision: HEAD
+      path: apps/traefik/
   syncPolicy:
     automated:
       prune: true
