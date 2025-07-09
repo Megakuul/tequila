@@ -23,7 +23,10 @@ spec:
           providers:
             kubernetesGateway:
               enabled: true
+          gatewayClass:
+            enabled: true
           gateway:
+            name: traefik
             listeners:
               web:
                 port: 8000
@@ -36,7 +39,7 @@ spec:
                 tls:
                   mode: Terminate
                   options:
-                    traefik.certResolver: letsencrypt
+                    gateway.networking.k8s.io/tls-options: '{"certResolver": "letsencrypt"}'
     - repoURL: https://github.com/megakuul/tequila
       targetRevision: HEAD
       path: apps/traefik/
