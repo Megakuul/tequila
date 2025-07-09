@@ -10,7 +10,7 @@ spec:
     - match: Host(`dashboard.tequila.megakuul.ch`)
       kind: Rule
       services:
-        - name: kubernetes-dashboard-kong-proxy
+        - name: dashboard-kong-proxy
           port: 443
   tls:
     certResolver: letsencrypt 

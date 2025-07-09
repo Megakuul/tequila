@@ -10,7 +10,7 @@ spec:
     - match: Host(`rook.tequila.megakuul.ch`)
       kind: Rule
       services:
-        - name: rook-ceph-mgr-dashboard-https
+        - name: rook-ceph-mgr-dashboard
           port: 8443
   tls:
     certResolver: letsencrypt 

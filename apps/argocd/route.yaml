@@ -10,7 +10,7 @@ spec:
     - match: Host(`argocd.tequila.megakuul.ch`)
       kind: Rule
       services:
-        - name: argocd-server
+        - name: argo-cd-argocd-server
           port: 443
   tls:
     certResolver: letsencrypt 
