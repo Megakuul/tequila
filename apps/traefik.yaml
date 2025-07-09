@@ -17,7 +17,9 @@ spec:
       helm:
         values: |
           additionalArguments:
-            - "--serversTransport.insecureSkipVerify=true"
+            - "--certificatesresolvers.letsencrypt.acme.email=linus.moser@megakuul.ch"
+            - "--certificatesresolvers.letsencrypt.acme.storage=/data/acme.json"
+            - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
           providers:
             kubernetesGateway:
               enabled: true
@@ -31,9 +33,10 @@ spec:
                 port: 8443
                 protocol: HTTPS
                 namespacePolicy: All
-                mode: Terminate
-                certificateRefs:
-                  - name: traefik-cert
+                tls:
+                  mode: Terminate
+                  options:
+                    traefik.certResolver: letsencrypt
     - repoURL: https://github.com/megakuul/tequila
       targetRevision: HEAD
       path: apps/traefik/

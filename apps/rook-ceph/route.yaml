@@ -3,8 +3,6 @@ kind: HTTPRoute
 metadata:
   name: rook-route
   namespace: rook-ceph
-  annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt"    
 spec:
   parentRefs:
     - name: traefik

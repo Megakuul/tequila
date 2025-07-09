@@ -3,8 +3,6 @@ kind: HTTPRoute
 metadata:
   name: dashboard-route
   namespace: dashboard
-  annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt"    
 spec:
   parentRefs:
     - name: traefik
