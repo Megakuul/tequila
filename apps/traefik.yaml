@@ -32,9 +32,6 @@ spec:
           providers:
             kubernetesCRD:
               enabled: true
-    - repoURL: https://github.com/megakuul/tequila
-      targetRevision: HEAD
-      path: apps/traefik/
   syncPolicy:
     automated:
       prune: true
