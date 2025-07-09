@@ -1,20 +1,16 @@
-apiVersion: gateway.networking.k8s.io/v1
-kind: HTTPRoute
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
 metadata:
   name: argocd-route
   namespace: argocd
 spec:
-  parentRefs:
-    - name: traefik
-      namespace: traefik
-  hostnames:
-    - "argocd.tequila.megakuul.ch"
-
-  rules:
-    - matches:
-        - path: 
-            type: PathPrefix
-            value: /
-      backendRefs:
+  entryPoints:
+    - websecure 
+  routes:
+    - match: Host(`argocd.tequila.megakuul.ch`)
+      kind: Rule
+      services:
         - name: argocd-server
           port: 443
+  tls:
+    certResolver: letsencrypt 
