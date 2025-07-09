@@ -17,7 +17,11 @@ spec:
       chart: cert-manager
       helm:
         values: |
-          installCRDs: true
+          crds:
+            enabled: true
+          config:
+            enableGatewayAPI: true
+          featureGates: "ExperimentalGatewayAPISupport=true"
   syncPolicy:
     automated:
       prune: true
