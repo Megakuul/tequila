@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: linkerd-viz
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - repoURL: https://helm.linkerd.io/stable
+      chart: linkerd-viz
+      targetRevision: 30.12.11
+    - repoURL: https://github.com/megakuul/tequila
+      targetRevision: HEAD
+      path: apps/linkerd-viz/
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: linkerd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
