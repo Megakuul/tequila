@@ -3,8 +3,6 @@ kind: Application
 metadata:
   name: traefik
   namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   destination:
     namespace: traefik
@@ -15,25 +13,15 @@ spec:
       targetRevision: 36.3.0
       chart: traefik
       helm:
-        values: |
+        valuesObject:
           additionalArguments:
             - "--serversTransport.insecureSkipVerify=true"
-
-            - "--certificatesresolvers.letsencrypt.acme.email=linus.moser@megakuul.ch"
-            - "--certificatesresolvers.letsencrypt.acme.storage=/data/acme.json"
-            - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
-
             - "--entrypoints.websecure.address=:443"
             - "--entrypoints.websecure.http.tls=true"
-            
             - "--entrypoints.web.address=:80"
-            - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
-            - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
-          persistence:
-            enabled: true
-            name: acme
-            size: 128Mi
-            path: /data
+            - "--certificatesresolvers.letsencrypt.acme.email=acme@megakuul.ch"
+            - "--certificatesresolvers.letsencrypt.acme.storage=/data/acme.json"
+            - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
           crds:
             enabled: true
           providers:
@@ -43,12 +31,21 @@ spec:
             web:
               port: 80
               exposedPort: 80
-
             websecure:
               port: 443
               exposedPort: 443
               tls:
                 enabled: true
+          persistence:
+            enabled: true
+            name: data
+            accessMode: ReadWriteOnce
+            size: 5Mi
+            path: /data
+          podSecurityContext:
+            fsGroup: 65532
+            runAsUser: 65532
+            runAsGroup: 65532
   syncPolicy:
     automated:
       prune: true
