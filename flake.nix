@@ -8,6 +8,12 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
+  inputs.water = {
+    url = "path:./water";
+    inputs.nixpkgs.follows = "nixpkgs";
+    inputs.microvm.follows = "microvm";
+  };
+
   outputs =
     {
       nixpkgs,
@@ -18,7 +24,7 @@
         system = "x86_64-linux";
         modules = [
           inputs.disko.nixosModules.disko
-          inputs.microvm.nixosModules.microvm
+          inputs.microvm.nixosModules.host
           inputs.nixos-facter-modules.nixosModules.facter
           {
             config.facter.reportPath =
@@ -28,8 +34,8 @@
                 throw "Have you forgotten to run nixos-anywhere with `--generate-hardware-config nixos-facter ./facter.json`?";
           }
           ./configuration.nix
-          ./hypervisor.nix
         ];
+        specialArgs = {inherit inputs;};
       };
     };
 }
